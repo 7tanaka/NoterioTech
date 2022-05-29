@@ -1,0 +1,811 @@
+<?php
+session_start();
+
+require('check_session.php');
+   
+
+include 'server_con.php';
+ob_start();
+error_reporting(0); 
+    ini_set('display_errors', 0);
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        @font-face {
+            font-family: 'gangOfThree';
+            src: url(go3v2.ttf);
+        }
+
+        @font-face {
+            font-family: 'iniya';
+            src: url(Iniya.otf);
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: linear-gradient(#2b1055, #d6e0ff)
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        header .logo {
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 2em;
+            border: 4px solid white;
+            padding: 2px;
+            Letter-spacing: 2px;
+            margin: .01rem;
+            margin-right: 10px;
+            font-family: 'gangOfThree';
+        }
+
+        .navbar-links ul {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+
+        .navbar-links ul li {
+            list-style: none;
+            margin-left: 30px;
+            padding: 10px 5px;
+        }
+
+        .navbar-links ul li a {
+            text-decoration: none;
+            padding: 5px 15px;
+            font-family: 'gangOfThree';
+            color: #ffff;
+            border-radius: 20px;
+        }
+
+        .navbar-links ul li a:hover,
+        .navbar-links ul li.active {
+            background: white;
+            color: #2b1055;
+        }
+
+        section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            padding: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+
+        }
+
+        section h2 {
+            font-family: 'iniya';
+        }
+
+
+        section::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to top, #1c0522, transparent);
+            z-index: 1000;
+        }
+
+        .front {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            z-index: 6;
+
+        }
+
+        .stones {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            z-index: 8;
+
+        }
+
+        .back {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            z-index: 5;
+        }
+
+        .stars {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+            z-index: 7;
+            mix-blend-mode: screen;
+        }
+
+        .text1 {
+            position: absolute;
+            font-family: 'iniya';
+            color: white;
+            white-space: nowrap;
+            font-size: 7.5vw;
+            font-family: 'iniya';
+            z-index: 9;
+
+        }
+
+        .btn {
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 40px;
+            background: white;
+            color: #2b1055;
+            font-size: 1.5em;
+            z-index: 9;
+            transform: translateY(100px);
+        }
+
+        .sec {
+            position: relative;
+            padding: 100px;
+            background: #1c0522;
+        }
+
+        .sec h2 {
+            font-size: 3.5em;
+            color: white;
+        }
+
+        .sec label {
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: white;
+
+        }
+
+        .wat {
+            font-size: 1.5em;
+            color: white;
+        }
+
+        .toggle-button {
+            position: absolute;
+            top: .75rem;
+            right: 1rem;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+        }
+
+        .toggle-button .bar {
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+
+        @media (max-width:700px) {
+            .toggle-button {
+                display: flex;
+            }
+
+            .navbar-links {
+                display: none;
+                width: 100%;
+
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar-links ul {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .navbar-links li {
+                text-align: center;
+            }
+
+            .navbar-links li a {
+                padding: .5rem 1rem;
+
+            }
+
+            .navbar-links.active {
+                display: flex;
+            }
+
+        }
+
+        .box {
+            width: 80px;
+            padding: 10px;
+            position: relative;
+            top: 19px;
+            left: 30%;
+            transform: translate(-50%, -50%);
+            border-color: white;
+            border-radius: 100px;
+            text-align: center;
+
+        }
+
+        .box1 input[type="text"],
+        .box1 input[type="password"] {
+            border: 0;
+            background: none;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+            border: 2px solid #3498db;
+            padding: 10px 20px;
+            width: 20px;
+            outline: none;
+            color: white;
+            border-radius: 24px;
+            transition: 0.25s;
+        }
+
+        .box1 input[type="text"]:focus,
+        .box1 input[type="password"]:focus {
+            width: 200px;
+            border-color: #2ecc71;
+        }
+
+        .box1 input[type="submit"],
+        .box1 button[type="button"] {
+            border: 0;
+            background: none;
+            display: block;
+            margin: 30px auto;
+            text-align: center;
+            border: 2px solid #2ecc71;
+            padding: 10px 10px;
+            width: 200px;
+            outline: none;
+            color: white;
+            border-radius: 24px;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+
+        .box1 input[type="submit"]:hover,
+        .box1 button[type="button"]:hover {
+            background: #2ecc71;
+        }
+        ::placeholder
+        {
+        COLOR:WHITE
+        }
+      
+
+        th {
+            background-color: white;
+            color: black;
+            font-family: 'iniya';
+            font-weight: 200;
+            text-transform: uppercase;
+
+        }
+
+        td {
+           
+            background-color: gray;
+            font-family: 'Montserrat', sans-serif;
+        }
+        .navbar-links .current {
+            background-color: white;
+            color: #2b1055;
+        }
+    </style>
+</head>
+
+</head>
+
+<body>
+    <header>
+        <a href="#" class="logo">NOTERiO</a>
+        <a href="#" class="toggle-button">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </a>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="home.html">Home</a></li>
+                <li><a href="#" class="current">Settings</a></li>
+                <li><a href=" delete_account.html">Deactivate</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+    <section>
+        <img src="mars_back.png" id="mars_back" class="back">
+        <img src="mars_stones.png" id="mars_stones" class="stones">
+        <img src="mars_stars.png" id="mars_stars" class="stars">
+        <h2 id="text1" class="text1">UPDATE ACCOUNT</h2>
+
+        <img src="mars_front1.png" id="mars_front1" class="front">
+    </section>
+
+    <div class="sec" id="sec">
+
+        <?php
+    
+        $idCurrent = $_SESSION['id'];
+    
+    $sql_command = "SELECT * FROM users1 where id = '$idCurrent' ";
+            $action = mysqli_query($connection, $sql_command); ?>
+
+        <center>
+            <font face='Courier New'>
+                <table width='80%' cellspan='2' border='2' class='wat'>
+                    <?php while ($line = mysqli_fetch_assoc($action)){ ?>
+                    <form method="POST">
+                        <tr>
+                            <th>USERNAME</th>
+                            <td>
+                                <font family='iniya'>
+                                    <center>
+                                        <?php echo $line["username1"] ?>
+                                    </center>
+                                </font>
+                            </td>
+
+                            <td class="box1">
+                                <center>
+                                    <input type="text" name="username1" id="case1" class="box" style="display:none" placeholder= "USERNAME">
+                                    <input type="submit" name="save1" id="save1" class="box" value="SAVE"
+                                        style="display:none">
+                                    <button a href="update_account.html" id="cancel1" class="box"
+                                        style="display:none">CANCEL<a>
+                                            <button type="button" id="edit1" onclick="display1(0)" class="box"
+                                                style="display:block"> EDIT
+                                            </button>
+                                </center>
+                            </td>
+
+
+                            <?php
+                        $id1z= $_SESSION['id'];
+                        $name1z = $_SESSION['name7b'] ;
+                        $lastName1z = $_SESSION['lastName7b'] ;
+                        $email1z = $_SESSION['email7b'];
+                        $bday1z = $_SESSION['birthday7b'] ;
+                        $username1z = $_POST['username1'] ;
+                        $pass1z = $_SESSION['pass7b'] ;
+
+                        $sql_command1 = "UPDATE users1 SET 
+                        name1 = '$name1z',
+                        lastName = '$lastName1z',
+                        email = '$email1z',
+                        birthday = '$bday1z',  
+                        username1 = '$username1z',
+                        password1 = '$pass1z'
+                        WHERE id = '$id1z'
+                        ";
+
+                        if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['save1']))
+                        {
+                            mysqli_query($connection, $sql_command1);
+                        }else{
+                            header("location.update_account-backup.html");
+                        }
+                            
+                        ?>
+                        </tr>
+
+                        <tr>
+                            <th>NAME</th>
+                            <td>
+                                <center>
+                                    <?php echo $line["name1"] ?>
+                                </center>
+                            </td>
+                            <td class="box1">
+                                <center>
+                                    <input type="text" name="name1" id="case2" class="box" style="display:none" placeholder="NAME">
+                                    <input type="submit" name="save2" id="save2" class="box" value="SAVE"
+                                        style="display:none">
+                                    <button a href="update_account.html" id="cancel2" class="box"
+                                        style="display:none">CANCEL<a>
+                                            <button type="button" id="edit2" class="box" onclick="display2(0)"
+                                                style="display:block"> EDIT
+                                            </button>
+                                </center>
+                            </td>
+
+
+                            <?php
+                        $id1z= $_SESSION['id'];
+                        $name1z = $_POST['name1'] ;
+                        $lastName1z = $_SESSION['lastName7b'] ;
+                        $email1z = $_SESSION['email7b'];
+                        $bday1z = $_SESSION['birthday7b'] ;
+                        $username1z = $_SESSION['username7b'] ;
+                        $pass1z = $_SESSION['pass7b'] ;
+
+                        $sql_command2 = "UPDATE users1 SET 
+                        name1 = '$name1z',
+                        lastName = '$lastName1z',
+                        email = '$email1z',
+                        birthday = '$bday1z',  
+                        username1 = '$username1z',
+                        password1 = '$pass1z'
+                        WHERE id = '$id1z'
+                        ";
+
+                        if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['save2']))
+                        {
+                            mysqli_query($connection, $sql_command2);
+                        }else{
+                            header("location.update_account-backup.html");
+                        }
+                            
+                        ?>
+
+                        </tr>
+
+                        <tr>
+                            <th>LAST NAME</th>
+                            <td>
+                                <center>
+                                    <?php echo $line["lastName"] ?>
+                                </center>
+                            </td>
+                            <td class="box1">
+                                <center>
+                                    <input type="text" name="lastName" id="case3" class="box" style="display:none" placeholder="LAST NAME">
+                                    <input type="submit" name="save3" id="save3" class="box" value="SAVE"
+                                        style="display:none">
+                                    <button a href="update_account.html" id="cancel3" class="box"
+                                        style="display:none">CANCEL<a>
+                                            <button type="button" id="edit3" class="box" onclick="display3(0)"
+                                                style="display:block"> EDIT
+                                            </button>
+                                </center>
+                            </td>
+
+
+                            <?php
+                        $id1z= $_SESSION['id'];
+                        $name1z = $_SESSION['name7b'] ;
+                        $lastName1z = $_POST['lastName'] ;
+                        $email1z = $_SESSION['email7b'];
+                        $bday1z = $_SESSION['birthday7b'] ;
+                        $username1z = $_SESSION['username7b'] ;
+                        $pass1z = $_SESSION['pass7b'] ;
+
+                        $sql_command3 = "UPDATE users1 SET 
+                        name1 = '$name1z',
+                        lastName = '$lastName1z',
+                        email = '$email1z',
+                        birthday = '$bday1z',  
+                        username1 = '$username1z',
+                        password1 = '$pass1z'
+                        WHERE id = '$id1z'
+                        ";
+
+                        if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['save3']))
+                        {
+                            mysqli_query($connection, $sql_command3);
+                        }else{
+                            header("location.update_account-backup.html");
+                        }
+                            
+                        ?>
+                        </tr>
+
+                        <tr>
+                            <th>EMAIL</th>
+                            <td>
+                                <center>
+                                    <?php echo $line["email"] ?>
+                                </center>
+                            </td>
+                            <td class="box1">
+                                <center>
+                                    <input type="text" name="email" class="box" id="case4" style="display:none" placeholder="EMAIL">
+                                    <input type="submit" name="save4" id="save4" class="box" value="SAVE"
+                                        style="display:none">
+                                    <button a href="update_account.html" class="box" id="cancel4"
+                                        style="display:none">CANCEL<a>
+                                            <button type="button" id="edit4" class="box" onclick="display4(0)"
+                                                style="display:block"> EDIT
+                                            </button>
+                                </center>
+                            </td>
+
+
+                            <?php
+                        $id1z= $_SESSION['id'];
+                        $name1z = $_SESSION['name7b'] ;
+                        $lastName1z = $_SESSION['lastName7b'] ;
+                        $email1z = $_POST['email'];
+                        $bday1z = $_SESSION['birthday7b'] ;
+                        $username1z = $_SESSION['username7b'] ;
+                        $pass1z = $_SESSION['pass7b'] ;
+
+                        $sql_command4 = "UPDATE users1 SET 
+                        name1 = '$name1z',
+                        lastName = '$lastName1z',
+                        email = '$email1z',
+                        birthday = '$bday1z',  
+                        username1 = '$username1z',
+                        password1 = '$pass1z'
+                        WHERE id = '$id1z'
+                        ";
+
+                        if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['save4']))
+                        {
+                            mysqli_query($connection, $sql_command4);
+                        }else{
+                            header("location.update_account-backup.html");
+                        }
+                            
+                        ?>
+                        </tr>
+
+                        <tr>
+                            <th>BIRTHDAY</th>
+                            <td>
+                                <center>
+                                    <?php echo $line["birthday"] ?>
+                                </center>
+                            </td>
+                            <td class="box1">
+                                <center>
+                                    <input type="text" name="birthday" class="box" id="case5" style="display:none" placeholder="BIRTHDAY">
+                                    <input type="submit" name="save5" class="box" id="save5" value="SAVE"
+                                        style="display:none">
+                                    <button a href="update_account.html" class="box" id="cancel5"
+                                        style="display:none">CANCEL<a>
+                                            <button type="button" id="edit5" class="box" onclick="display5(0)"
+                                                style="display:block"> EDIT
+                                            </button>
+                                </center>
+                            </td>
+
+
+                            <?php
+                        $id1z= $_SESSION['id'];
+                        $name1z = $_SESSION['name7b'];
+                        $lastName1z = $_SESSION['lastName7b'];
+                        $email1z = $_SESSION['email7b'];
+                        $bday1z = $_POST['birthday'];
+                        $username1z = $_SESSION['username7b'];
+                        $pass1z = $_SESSION['pass7b'];
+
+                        $sql_command5 = "UPDATE users1 SET 
+                        name1 = '$name1z',
+                        lastName = '$lastName1z',
+                        email = '$email1z',
+                        birthday = '$bday1z',  
+                        username1 = '$username1z',
+                        password1 = '$pass1z'
+                        WHERE id = '$id1z'
+                        ";
+
+                        if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['save5']))
+                        {
+                            mysqli_query($connection, $sql_command5);
+                        }else{
+                            header("location.update_account-backup.html");
+                        }
+                            
+                        ?>
+                        </tr>
+
+                        <tr>
+
+                            <th>
+                               PASSWORD
+                            </th>
+                            <td>
+                                <center>
+                                    <?php echo $line["password1"] ?>
+                                    
+                                </center>
+                            </td>
+                            <td class="box1">
+                                <center>
+                                    <input type="text" name="password1" class="box" id="case6" style="display:none" placeholder="PASSWORD">
+                                    <input type="submit" name="save6" class="box" id="save6" value="SAVE" 
+                                        style="display:none">
+                                    <button a href="update_account.html" class="box" id="cancel6"
+                                        style="display:none">CANCEL<a>
+                                            <button type="button" id="edit6" class="box" onclick="display6(0)"
+                                                style="display:block"> CHANGE PASSWORD
+                                            </button>
+                            </td>
+
+                            <?php }
+                        $id1z= $_SESSION['id'];
+                        $name1z = $_SESSION['name7b'];
+                        $lastName1z = $_SESSION['lastName7b'];
+                        $email1z = $_SESSION['email7b'];
+                        $bday1z = $_SESSION['birthday7b'];
+                        $username1z = $_SESSION['username7b'] ;
+                        $pass1z = $_POST['password1'] ;
+
+                        $sql_command6 = "UPDATE users1 SET 
+                        name1 = '$name1z',
+                        lastName = '$lastName1z',
+                        email = '$email1z',
+                        birthday = '$bday1z',  
+                        username1 = '$username1z',
+                        password1 = '$pass1z'
+                        WHERE id = '$id1z'
+                        ";
+
+                        if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['save6']))
+                        {
+                            mysqli_query($connection, $sql_command6);
+                        }else{
+                            header("location.update_account-backup.html");
+                        }
+                        
+                        ob_end_flush();
+                        ?>
+                        </tr>
+
+                </table>
+            </font>
+            </form>
+
+
+    </div>
+    <Script>
+        let mars_back = document.getElementById('mars_back');
+        let mars_stones = document.getElementById('mars_stones');
+        let mars_stars = document.getElementById('mars_stars');
+        let text = document.getElementById('text1');
+        let btn = document.getElementById('btn');
+        let mars_front1 = document.getElementById('mars_front1');
+        let header = document.querySelector('header');
+        window.addEventListener('scroll', function () {
+            let value = window.scrollY;
+            mars_stars.style.left = value * 8 + 'px';
+            mars_stones.style.left = value * 8 + 'px';
+            mars_back.style.top = value * .75 + 'px';
+            mars_front1.style.top = value * 0 + 'px';
+            text.style.marginTop = value * 2.5 + 'px';
+
+            header.style.top = value * .05 + 'px';
+        })
+
+        //hide or show password
+        function myFunction() {
+    var x = document.getElementById("myInput");
+    if (x.type === "text") {
+        x.type = "password";
+    } else {
+        x.type = "text";
+    }
+    }   
+        //making the navigator bars put in a container with three slices of span when the screen is shrink
+
+        const toggleButton = document.getElementsByClassName('toggle-button')[0]
+        const navbarLinks = document.getElementsByClassName('navbar-links')[0]
+
+        toggleButton.addEventListener('click', () => {
+            navbarLinks.classList.toggle('active')
+        })
+
+        //table edit function
+
+
+        function myFunction() {
+            var x = document.getElementById("pass2b");
+            if (x.type === "password") {
+                x.type = "text";
+            } else {
+                x.type = "password";
+            }
+        }
+
+        function display1(x) {
+            if (x == 0) document.getElementById("case1").style.display = 'block';
+            document.getElementById("save1").style.display = 'block';
+            document.getElementById("cancel1").style.display = 'block';
+            document.getElementById("edit1").style.display = 'none';
+
+        }
+        function display2(x) {
+            if (x == 0) document.getElementById("case2").style.display = 'block';
+            document.getElementById("save2").style.display = 'block';
+            document.getElementById("cancel2").style.display = 'block';
+            document.getElementById("edit2").style.display = 'none';
+
+        }
+        function display3(x) {
+            if (x == 0) document.getElementById("case3").style.display = 'block';
+            document.getElementById("save3").style.display = 'block';
+            document.getElementById("cancel3").style.display = 'block';
+            document.getElementById("edit3").style.display = 'none';
+
+        }
+        function display4(x) {
+            if (x == 0) document.getElementById("case4").style.display = 'block';
+            document.getElementById("save4").style.display = 'block';
+            document.getElementById("cancel4").style.display = 'block';
+            document.getElementById("edit4").style.display = 'none';
+
+        }
+        function display5(x) {
+            if (x == 0) document.getElementById("case5").style.display = 'block';
+            document.getElementById("save5").style.display = 'block';
+            document.getElementById("cancel5").style.display = 'block';
+            document.getElementById("edit5").style.display = 'none';
+
+        }
+        function display6(x) {
+            if (x == 0) document.getElementById("case6").style.display = 'block';
+            document.getElementById("save6").style.display = 'block';
+            document.getElementById("cancel6").style.display = 'block';
+            document.getElementById("edit6").style.display = 'none';
+
+        }
+
+
+
+    </Script>
+
+    <body>
+
+    </body>
+
+</html>

@@ -1,0 +1,346 @@
+<?php
+session_start();
+ob_start();
+require('check_session.php');
+include 'server_con.php';
+
+?>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deactivate</title>
+    <style>
+        @font-face {
+            font-family: 'gangOfThree';
+            src: url(go3v2.ttf);
+        }
+
+        @font-face {
+            font-family: 'iniya';
+            src: url(Iniya.otf);
+        }
+
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            min-height: 100vh;
+            overflow-x: hidden;
+            background: linear-gradient(#2b1055, #7597de)
+        }
+
+        header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 30px 100px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+
+        }
+
+        header .logo {
+            color: white;
+            font-weight: 700;
+            text-decoration: none;
+            font-size: 2em;
+            border: 4px solid white;
+            padding: 2px;
+            Letter-spacing: 2px;
+            margin: .01rem;
+            margin-right: 10px;
+            font-family: 'gangOfThree';
+        }
+
+        .navbar-links ul {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+
+        }
+
+        .navbar-links ul li {
+            list-style: none;
+            margin-left: 30px;
+            padding: 10px 5px;
+
+        }
+
+        .navbar-links ul li a {
+            text-decoration: none;
+            padding: 5px 15px;
+            font-family: 'gangOfThree';
+            color: #ffff;
+            border-radius: 20px;
+        }
+
+        .navbar-links ul li a:hover,
+        .navbar-links ul li.active {
+            background: white;
+            color: #2b1055;
+        }
+
+        section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            padding: 100px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        section::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 100px;
+            background: linear-gradient(to top, #1c0522, transparent);
+            z-index: 1000;
+        }
+
+        section img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            pointer-events: none;
+        }
+
+        section img#moon {
+            mix-blend-mode: screen;
+        }
+
+        section img#mountains_front {
+            z-index: 10;
+        }
+
+        #text {
+            position: absolute;
+
+            color: white;
+            white-space: nowrap;
+            font-size: 7.5vw;
+            z-index: 10000;
+            font-family: 'iniya';
+        }
+
+        #btn {
+            text-decoration: none;
+            display: inline-block;
+            padding: 8px 30px;
+            border-radius: 40px;
+            background: white;
+            color: #2b1055;
+            font-size: 1.5em;
+            z-index: 9;
+            transform: translateY(100px);
+            font-family: 'iniya';
+        }
+
+        .sec {
+            position: relative;
+            padding: 100px;
+            background: #1c0522;
+
+        }
+
+        .sec h2 {
+            font-size: 3.5em;
+            color: white;
+            font-family: 'iniya';
+        }
+
+        .sec p {
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: white;
+            font-family: 'iniya';
+
+        }
+
+        .toggle-button {
+            position: absolute;
+            top: .75rem;
+            right: 1rem;
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+        }
+
+        .toggle-button .bar {
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 10px;
+        }
+
+
+        @media (max-width:700px) {
+            .toggle-button {
+                display: flex;
+            }
+
+            .navbar-links {
+                display: none;
+                width: 100%;
+
+            }
+
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .navbar-links ul {
+                width: 100%;
+                flex-direction: column;
+            }
+
+            .navbar-links li {
+                text-align: center;
+            }
+
+            .navbar-links li a {
+                padding: .5rem 1rem;
+
+            }
+
+            .navbar-links.active {
+                display: flex;
+            }
+
+        }
+
+        .box input[type="submit"] {
+            border: 0;
+            background: none;
+            display: block;
+            margin: 20px auto;
+            text-align: center;
+            border: 2px solid red;
+            padding: 14px 10px;
+            width: 200px;
+            outline: none;
+            color: white;
+            border-radius: 24px;
+            transition: 0.25s;
+            cursor: pointer;
+        }
+
+        .box input[type="submit"]:hover {
+            background: red;
+        }
+
+        .navbar-links .current {
+            background-color: white;
+            color: #2b1055;
+        }
+    </style>
+</head>
+
+</head>
+
+<body>
+    <header>
+        <a href="#" class="logo">NOTERiO</a>
+        <a href="#" class="toggle-button">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </a>
+        <div class="navbar-links">
+            <ul>
+                <li><a href="home.html" >Home</a></li>
+                <li><a href="update_account-backup.html">Settings</a></li>
+                <li><a href="#" class="current">Deactivate</a></li>
+                <li><a href="logout.php">Logout</a></li>
+            </ul>
+        </div>
+    </header>
+    <section>
+        <img src="stars.png" id="stars">
+        <img src="moon.png" id="moon">
+        <img src="mountains_behind.png" id="mountains_behind">
+        <h2 id="text">BYE?
+            <?php echo $_SESSION['name7b']?>
+        </h2>
+        <a href="home.html" id="btn">No.</a>
+        <img src="mountains_front.png" id="mountains_front">
+    </section>
+    <div class="sec" id="sec">
+        <center>
+            <H2>ACCOUNT DEACTIVATION
+                <p>Just click the 'DEACTIVATE' button if you are sure that your current account should be deleted.
+            </h2>
+            <p>You can always create a new account..</p>
+            <p>Feel free to come back again.</p>
+
+            <form class="box" method="post">
+                <input type="submit" name="deactivate10k" id="deactivate10k" value="DEACTIVATE">
+            </form>
+        </center>
+
+        <?php
+    $idThis = $_SESSION['id'];
+    $sql_command = "DELETE FROM users1 WHERE id ='$idThis'";
+    if($_SERVER['REQUEST_METHOD'] == "POST" and isset($_POST['deactivate10k']))
+                        {
+                            mysqli_query($connection, $sql_command);
+                            header("location:logout.php");
+                        }
+    ob_end_flush();          
+    ?>
+    </div>
+    <Script>
+        let stars = document.getElementById('stars');
+        let moon = document.getElementById('moon');
+        let mountains_behind = document.getElementById('mountains_behind');
+        let text = document.getElementById('text');
+        let btn = document.getElementById('btn');
+        let mountains_front = document.getElementById('mountains_front');
+        let header = document.querySelector('header');
+        window.addEventListener('scroll', function () {
+            let value = window.scrollY;
+            stars.style.left = value * 4 + 'px';
+            moon.style.top = value * 1.05 + 'px';
+            mountains_behind.style.top = value * .75 + 'px';
+            mountains_front.style.top = value * 0 + 'px';
+            text.style.marginTop = value * 1.5 + 'px';
+            btn.style.marginTop = value * 1.5 + 'px';
+            header.style.top = value * .05 + 'px';
+        })
+
+
+        const toggleButton = document.getElementsByClassName('toggle-button')[0]
+        const navbarLinks = document.getElementsByClassName('navbar-links')[0]
+
+        toggleButton.addEventListener('click', () => {
+            navbarLinks.classList.toggle('active')
+        })
+
+    </Script>
+
+    <body>
+
+    </body>
+
+</html>

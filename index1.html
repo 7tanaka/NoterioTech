@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noterio</title>
+    <link rel="shortcut icon" type="image/png" href="tantan1a.png">
+</head>
+<style>
+    @font-face {
+        font-family: 'gangOfThree';
+        src: url(go3v2.ttf);
+    }
+
+    @font-face {
+        font-family: 'iniya';
+        src: url(Iniya.otf);
+    }
+
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: sans-serif;
+
+    }
+
+    .box {
+        width: 400px;
+        padding: 40px;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        border-color: white;
+        border-radius: 100px;
+        text-align: center;
+        z-index: 50;
+    }
+
+    .box h1 {
+        color: white;
+        text-transform: uppercase;
+        font-weight: 500;
+    }
+
+    .box input[type="text"],
+    .box input[type="password"] {
+        border: 0;
+        background: none;
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        border: 2px solid #3498db;
+        padding: 14px 10px;
+        width: 200px;
+        outline: none;
+        color: white;
+        border-radius: 24px;
+        transition: 0.25s;
+    }
+
+    .box input[type="text"]:focus,
+    .box input[type="password"]:focus {
+        width: 300px;
+        border-color: #2ecc71;
+    }
+
+    .box input[type="submit"] {
+        border: 0;
+        background: none;
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        border: 2px solid #2ecc71;
+        padding: 14px 10px;
+        width: 200px;
+        outline: none;
+        color: white;
+        border-radius: 24px;
+        transition: 0.25s;
+        cursor: pointer;
+    }
+
+    .box input[type="submit"]:hover {
+        background: #2ecc71;
+    }
+    .reg1{
+        position:absolute;
+        left: 850px;
+        top:615px;
+        border: 0;
+        background: none;
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        border: 2px solid #1AE0F6;
+        padding: 15px 10px;
+        width: 200px;
+        outline: none;
+        color: white;
+        border-radius: 24px;
+        transition: 0.25s;
+        cursor: pointer;
+        z-index: 100;
+    }
+
+    .reg1:hover {
+        background: #1AE0F6;
+    }
+
+    .register {
+        border: 0;
+        background: none;
+        display: block;
+        margin: 20px auto;
+        text-align: center;
+        border: 2px solid #2ecc71;
+        padding: 14px 10px;
+        width: 200px;
+        outline: none;
+        color: white;
+        border-radius: 24px;
+        transition: 0.25s;
+        cursor: pointer;
+    }
+
+    .register:hover {
+        background: #2ecc71;
+    }
+
+    section {
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        padding: 100px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        overflow: hidden;
+    }
+
+    .trees {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: fill;
+        pointer-events: none;
+        z-index: 6;
+        filter: brightness(50%);
+    }
+
+    .sec {
+        border: 0;
+        position: absolute;
+        left: 850px;
+        top: 165px;
+        background: transparent;
+        color: white;
+        text-transform: uppercase;
+        z-index: 51;
+        border: 2px solid red;
+        padding: 4px 5px;
+
+    }
+
+    header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        padding: 30px 100px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 1000;
+    }
+
+    header .logo {
+        color: white;
+        font-weight: 700;
+        text-decoration: none;
+        font-size: 2em;
+        border: 4px solid white;
+        padding: 2px;
+        Letter-spacing: 2px;
+        margin: .01rem;
+        margin-right: 10px;
+        font-family: 'gangOfThree';
+    }
+
+    ::placeholder {
+        COLOR: WHITE
+    }
+
+    .wat {
+        color: white;
+    }
+
+    .navbar-links ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .navbar-links ul li {
+        list-style: none;
+        margin-left: 30px;
+        padding: 10px 5px;
+    }
+
+    .navbar-links ul li a {
+        text-decoration: none;
+        padding: 5px 15px;
+        font-family: 'gangOfThree';
+        color: #ffff;
+        border-radius: 20px;
+    }
+
+    .navbar-links ul li a:hover,
+    .navbar-links ul li.active {
+        background: white;
+        color: #2b1055;
+    }
+
+    .navbar-links ul {
+
+        justify-content: center;
+        align-items: center;
+
+    }
+
+    .navbar-links ul li {
+        list-style: none;
+        margin-left: 10px;
+        padding: 10px 150px;
+    }
+
+    .navbar-links ul li a {
+        text-decoration: none;
+        padding: 5px 15px;
+
+        color: #ffff;
+        border-radius: 20px;
+    }
+
+    .navbar-links ul li a:hover,
+    .navbar-links ul li.active {
+        background: white;
+        color: #2b1055;
+    }
+
+  
+</style>
+<header>
+    <a href="#" class="logo">NOTERiO</a>
+ 
+    <div class="navbar-links">
+        <ul>
+            <li><a href="registrationPHP.php">REGISTER</a></li>
+
+        </ul>
+    </div>
+</header>
+
+<body>
+
+    
+    <form class="box" action="home.php" method="POST">
+        <center><br>
+            <input type="text" name="usermail1" placeholder="USERNAME OR EMAIL">
+            <br><br>
+
+
+            <input type="password" id="myInput" name="password1a" placeholder="PASSWORD">
+
+            <!-- An element to toggle between password visibility --><BR>
+            <div class="wat">
+                <input type="checkbox" onclick="myFunction()">Show Password<br><br>
+            </div>
+
+            <input type="submit" value="LOGIN"><BR>
+        </center>
+    </form>
+    
+    <div class="sec" id="sec">
+
+        <?php if (isset($_GET['error'])) { ?>
+
+        <center>
+            <p class="error">
+                <?php echo $_GET['error'] ?>
+            </p>
+
+            <?php } ?>
+    </div>
+   
+    <section>
+        <img src="trees2.jpg" id="trees" class="trees">
+        
+    </section>
+</body>
+
+</html>
